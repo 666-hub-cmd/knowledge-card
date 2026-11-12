@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<style>
+  :root{
+    --paper:#f7f1e3; --paper2:#f2e9d6; --ink:#3b3428; --ink-soft:#6b6250;
+    --red:#c0392b; --blue:#3b6ea5; --green:#4a7c4e; --tape1:rgba(255,120,150,.45);
+    --tape2:rgba(126,200,180,.45); --tape3:rgba(255,200,90,.5);
+    --hl-y:linear-gradient(104deg, rgba(255,225,0,.55) 0% 97%, transparent 97%);
+    --hl-p:linear-gradient(104deg, rgba(255,120,160,.4) 0% 97%, transparent 97%);
+    --hl-g:linear-gradient(104deg, rgba(120,220,160,.45) 0% 97%, transparent 97%);
+    --hl-b:linear-gradient(104deg, rgba(120,190,255,.4) 0% 97%, transparent 97%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#e8e0cf;
+    background-image:radial-gradient(#d8cfba 1px, transparent 1.4px);
+    background-size:22px 22px;
+    font-family:"Kaiti SC","KaiTi","STKaiti","DFKai-SB","Noto Serif SC",serif;
+    color:var(--ink); padding:28px 14px; line-height:1.65;
+  }
+  .page{
+    max-width:880px;margin:0 auto;background:var(--paper);
+    background-image:
+      linear-gradient(rgba(59,52,40,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,52,40,.045) 1px, transparent 1px);
+    background-size:26px 26px;
+    border:1px solid #d9cfb8; border-radius:6px;
+    box-shadow:0 8px 28px rgba(60,50,30,.22);
+    padding:38px 40px 34px; position:relative; overflow:hidden;
+  }
+  .page::before{
+    content:"";position:absolute;left:14px;top:0;bottom:0;width:14px;
+    background-image:radial-gradient(circle 4px at 7px 30px, #e8e0cf 96%, transparent);
+    background-size:14px 90px; background-repeat:repeat-y;
+  }
+  .head{position:relative;margin-bottom:8px;padding-left:16px}
+  .head h1{font-size:30px;letter-spacing:3px;display:inline-block}
+  .head .sub{color:var(--ink-soft);font-size:14px;margin-top:2px}
+  .stamp{
+    position:absolute;right:6px;top:-6px;
+    border:3px double var(--red);color:var(--red);
+    border-radius:8px;padding:5px 14px;font-size:20px;font-weight:bold;
+    letter-spacing:6px;transform:rotate(7deg);opacity:.85;background:rgba(255,255,255,.25);
+  }
+  .stamp-note{position:absolute;right:10px;top:44px;color:var(--red);font-size:12px;transform:rotate(3deg);opacity:.75}
+  .date-line{border-bottom:2px dashed #b8ad93;padding:6px 0 6px 16px;color:var(--ink-soft);font-size:14px;margin-bottom:26px}
+  .date-line b{color:var(--ink)}
+  .card{
+    position:relative;border:1.5px solid #c9bd9f;border-radius:4px;
+    background:rgba(255,253,246,.75);margin:0 0 34px;padding:26px 22px 20px;
+    box-shadow:2px 3px 0 rgba(59,52,40,.08);
+  }
+  .tape{
+    position:absolute;top:-12px;width:96px;height:26px;opacity:.85;
+    background:repeating-linear-gradient(45deg, var(--tape1) 0 8px, rgba(255,120,150,.32) 8px 16px);
+    left:26px;transform:rotate(-4deg);border-left:2px dashed rgba(255,255,255,.6);border-right:2px dashed rgba(255,255,255,.6);
+  }
+  .tape.t2{background:repeating-linear-gradient(45deg, var(--tape2) 0 8px, rgba(126,200,180,.3) 8px 16px);left:auto;right:26px;transform:rotate(5deg)}
+  .tape.t3{background:repeating-linear-gradient(45deg, var(--tape3) 0 8px, rgba(255,200,90,.35) 8px 16px);left:40px;transform:rotate(-2deg)}
+  .card h2{font-size:21px;letter-spacing:2px;margin-bottom:2px}
+  .card h2 .no{
+    display:inline-block;background:var(--ink);color:var(--paper);
+    border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;
+    font-size:14px;margin-right:8px;transform:translateY(-2px);
+  }
+  .oneliner{color:var(--ink-soft);font-size:14px;margin:2px 0 14px 34px}
+  .film{background:#141414;border-radius:5px;padding:20px 16px;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+  .film .holes{height:13px;background-image:repeating-linear-gradient(90deg, rgba(247,241,227,.92) 0 12px, transparent 12px 30px);border-radius:2px;margin:0 6px}
+  .film img{display:block;width:100%;border-radius:3px;margin:12px 0}
+  .film .svgwrap{margin:12px 0;background:rgba(247,241,227,.35);border-radius:3px;padding:10px}
+  .film .svgwrap svg{display:block;width:100%;height:auto}
+  .film .frame-label{display:flex;justify-content:space-between;color:#cfc7b0;font-size:12px;letter-spacing:2px;margin:0 6px}
+  .params{display:flex;gap:0;margin:10px 2px 4px;font-size:13.5px}
+  .params .p{flex:1;padding:7px 10px;border:1.5px dashed #b8ad93;background:rgba(255,252,240,.6)}
+  .params .p:first-child{border-radius:4px 0 0 4px;border-right:none}
+  .params .p:last-child{border-radius:0 4px 4px 0}
+  .params b{font-family:Consolas,Menlo,monospace;font-size:15px}
+  .vs{align-self:center;color:var(--red);font-weight:bold;padding:0 8px;font-size:15px;transform:rotate(-6deg)}
+  .note{margin:12px 0 4px;font-size:14.5px}
+  .hl{padding:0 3px}
+  .hl.y{background:var(--hl-y)} .hl.p{background:var(--hl-p)}
+  .hl.g{background:var(--hl-g)} .hl.b{background:var(--hl-b)}
+  .margin-doodle{
+    position:absolute;right:-6px;width:120px;font-size:12.5px;color:var(--blue);
+    transform:rotate(4deg);text-align:center;line-height:1.35;
+  }
+  .margin-doodle .arr{font-size:18px;color:var(--red);display:block;transform:rotate(100deg)}
+  .tips{margin-top:12px;background:rgba(255,250,235,.85);border-left:4px solid var(--green);padding:10px 14px;border-radius:0 4px 4px 0}
+  .tips h3{font-size:14.5px;color:var(--green);letter-spacing:2px;margin-bottom:6px}
+  .tips li{list-style:none;font-size:14px;padding-left:22px;position:relative;margin:4px 0}
+  .tips li::before{content:"☐";position:absolute;left:0;color:var(--ink-soft)}
+  .cheat{border-top:2px dashed #b8ad93;margin-top:4px;padding-top:22px;display:flex;gap:24px;align-items:flex-start}
+  .cheat svg{flex-shrink:0}
+  .cheat .txt h3{font-size:16px;letter-spacing:2px;margin-bottom:6px}
+  .cheat .txt p{font-size:13.5px;color:var(--ink-soft);margin:4px 0}
+  .cheat .txt b{color:var(--ink)}
+  .foot{margin-top:22px;text-align:center;color:var(--ink-soft);font-size:12.5px;letter-spacing:1px}
+  .foot .hl{font-size:13px}
+  @media (max-width:640px){
+    .page{padding:26px 16px}
+    .stamp-note{display:none}
+    .margin-doodle{display:none}
+    .cheat{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <h1>{{TITLE}}</h1>
+    <div class="sub">{{SUBTITLE}}</div>
+    {{STAMP_HTML}}
+  </div>
+  <div class="date-line">{{DATE_LINE}}</div>
+
+{{CARDS}}
+
+{{CHEAT}}
+
+  <div class="foot">{{FOOT}}</div>
+</div>
+</body>
+</html>
