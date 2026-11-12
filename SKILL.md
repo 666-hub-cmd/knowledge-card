@@ -21,7 +21,7 @@ agent_created: true
 ## 工作流
 
 1. **资料解析**：读文件（Read / 对应 Office 技能）或用户粘贴文本，蒸馏成 3-6 张卡片，每卡一个概念。
-2. **写 spec.json**（写到 `D:/AI工作台/_tmp/knowledge-card/`）：字段见 scripts/build_card.py 头部 docstring。卡片文案规则：
+2. **写 spec.json**（写到临时目录，如 `./_build/`）：字段见 scripts/build_card.py 头部 docstring。卡片文案规则：
    - 每卡 `<div class="oneliner">` 一句话总结，核心结论用 `<span class="hl y">` 荧光笔标出
    - 对比型内容必配 `params` 左右对照条（如 f/1.8 vs f/11）
    - `note_html` 写「为什么会这样」的批注；`tips` 写可执行动作，每条 ≤30 字
@@ -29,7 +29,7 @@ agent_created: true
    ```bash
    python <技能目录>/scripts/build_card.py spec.json --out <产物路径>.html
    ```
-   图片自动压缩（≤1200px / JPEG q82）并 base64 内嵌。产物落规范路径（自定义指令铁律：`D:/AI工作台/...`，收工 `hub.py register`）。
+   图片自动压缩（≤1200px / JPEG q82）并 base64 内嵌。产物落到你指定的输出路径即可。
 4. **交付**：present_files 打开预览，文字总结页面结构。
 5. **收尾回问（必做）**：问用户 ① 还想整理什么资料（可粘贴/上传）② 喜欢什么配图风格（写实摄影 / 手绘插画 / 扁平图标 / 杂志拼贴，可发参考图）。
 
@@ -47,4 +47,4 @@ agent_created: true
 
 ## 已验证示例
 
-「摄影入门」示例成品：`D:/AI工作台/03_共享知识库/办公文档/知识卡片/20261112_摄影入门知识卡_手账风格_示例.html`（3 张 AI 对比图 + 曝光三角 SVG 小抄）。新会话不确定效果时先看它找手感，或直接跑一遍技能自测。
+「摄影入门」示例：按本 SKILL 的无资料分支生成（3 张 AI 对比图 + 曝光三角 SVG 小抄），不确定效果时先跑一遍示例找手感。
